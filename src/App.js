@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import './App.css';
 import Expense from './components/Expense/Expense';
+import { useState } from 'react';
 import NewExpense from './components/NewExpense/NewExpense';
 import Navigation from './components/Navigation/Navigation';
+import Login from './components/Login/Login';
 
 function App() {
   const initialExpenses = [
@@ -12,7 +13,16 @@ function App() {
     {id: 4, title: 'Dinner', amount: 20, date: new Date(2023, 2, 6)},
   ];
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [expenses, setExpenses] = useState(initialExpenses);
+
+  const loginHandler = (username, password) => {
+    /// TO-DO: check login
+    setIsLoggedIn(true);
+  }
+  const logoutHandler = () => {
+    setIsLoggedIn(false);
+  }
 
   const addExpenseHandler = (data) => {
     setExpenses(previousState => {
@@ -22,9 +32,15 @@ function App() {
 
   return (
     <>
-      <Navigation />
-      <NewExpense onAddExpense={addExpenseHandler} />
-      <Expense expenses={expenses}></Expense>
+      {isLoggedIn && 
+        <Navigation onLogout={logoutHandler} >
+          <NewExpense onAddExpense={addExpenseHandler} />
+          <Expense expenses={expenses}></Expense>
+        </Navigation>
+      }
+
+      {!isLoggedIn && <Login onLogin={loginHandler} />}
+      
     </>
   );
 }
