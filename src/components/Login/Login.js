@@ -1,6 +1,6 @@
 import { Send } from "@mui/icons-material";
 import { Box, Button, Container, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function Login(props) {
     const [username, setUsername] = useState('');
@@ -10,13 +10,22 @@ function Login(props) {
     const [isValidPassword, setIsValidPassword] = useState(true);
     const [formIsValid, setFormIsValid] = useState(false);
 
+    useEffect(() => {
+        console.log("1111");
+        setFormIsValid(username.trim().length !== 0 && password.trim().length !== 0);
+        return (() => {
+            console.log("clean up");
+        })
+    },[username,password])
+
+
     const usernameChangeHandler = (event) => {
         setUsername(event.target.value);
-        setFormIsValid(event.target.value.trim().length !== 0 && password.trim().length !== 0);
+        // setFormIsValid(event.target.value.trim().length !== 0 && password.trim().length !== 0);
     }
     const passwordChangeHandler = (event) => {
         setPassword(event.target.value);
-        setFormIsValid(event.target.value.trim().length !== 0 && username.trim().length !== 0);
+        // setFormIsValid(event.target.value.trim().length !== 0 && username.trim().length !== 0);
     }
 
     const validateUsernameHandler = () => {
